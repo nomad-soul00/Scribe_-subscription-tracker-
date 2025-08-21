@@ -121,3 +121,9 @@ authRouter.post('/sign-up', signUp)
         >if user is present then pass the information of the user inside (req.user = user)
 
 <!-- -------------------------------- -->
+
+<!-- ------------Rate Limiting using arcjet--------- -->
+    set arcjet environmental variables form docs
+    create an instance of arcjet in config and export it
+    now create a middleware for arcjet from that instance
+<!-- ----------------------------------- -->
