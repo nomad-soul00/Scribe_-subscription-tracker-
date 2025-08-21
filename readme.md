@@ -78,3 +78,46 @@ const errorMiddleWare = (err,req,res,next)=>{
 export default errorMiddleWare;
     
 <!-- -------------------------- -->
+
+
+<!-- ----------AUTHENTICATION------------ -->
+jwt, bcrypt
+
+for each specific function build controllers and then hook them up witht specific routes.
+
+authRouter.post('/sign-up', signUp)
+
+    <!-- signUp-------------- -->
+        1) start a mongoose session- to start a transaction
+        2) create transsaction - so that we can group different multiple database operation, so that they either all succeed or fail completely
+
+        significance- This ensures data consistency, especially in cases where partial updates could lead to corrupted or invalid data.
+            example- A user might be created but the profile isn't.
+                      Stock is deducted, but no order is created.
+                      Money is debited from one user but not credited to another.
+        
+        3)open a try catch block - in the catch section if any error occurs - abort the transaction > end the session > pass the error in next()
+        4) in try section create a new user - take data from clients > check if user exists > throw error> if user not exists hash the password > create a new user with the hashed paswword > link session inside the newUser > create a jwt token >commit the session > end the session > pass a json object for success message
+
+    <!-- ----------sign in-------------------- -->
+    1)open a try catch block - pass the error to the error middle ware through next(error)
+    2)in try section - cheeck for existing user > if not present throw some error > compare the hashed password > if not matched throw error  > if matched provide a token > then send necessary data in response.
+
+<!-- --------------------------------- -->
+
+<!-- -----------Authorization--------------- -->
+
+    handling user auth using user controller - (protected routes)
+    retrieve all user
+    retrieve a certain user.
+
+    since the user details page should be authenticated or protected - therefore we used middlewares
+    auth.middleware -> check if the requested user had a token 
+                        if(req.headers.authorization && req.headers.authorization.startsWith('Bearer')){
+            token = req.headers.authorization.split(' ')[1];
+        } 
+        >split the token and decode it /verify it
+        >check whether the user is present in the database or not thorough the decoded jwt userId
+        >if user is present then pass the information of the user inside (req.user = user)
+
+<!-- -------------------------------- -->
