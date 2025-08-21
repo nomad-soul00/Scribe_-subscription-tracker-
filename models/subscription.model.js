@@ -47,7 +47,6 @@ const subSchema = new mongoose.Schema({
     },
      renewalDate:{
         type: Date,
-        required: true,
         validate:{
             validator : function(value){ return value > this.startDate },
             message: 'Renewal date must be after the start date'
@@ -72,10 +71,10 @@ subSchema.pre('save', function(next){
             monthly: 30,
             yearly: 365
         }
+        this.renewalDate = new Date(this.startDate);
+        this.renewalDate.setDate(this.renewalDate.getDate() + renewalPeriods[this.frequency]); 
     }
 
-    this.renewalDate = new Date(this.startDate);
-    this.renewalDate.setDate(this.renewalDate.getDate() + renewalPeriods[this.frequency]); 
 
     //autoupdate the status if renewl date has passed
      if(this.renewalDate < new Date()){

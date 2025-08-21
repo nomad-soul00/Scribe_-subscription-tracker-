@@ -127,3 +127,12 @@ authRouter.post('/sign-up', signUp)
     create an instance of arcjet in config and export it
     now create a middleware for arcjet from that instance
 <!-- ----------------------------------- -->
+
+
+<!-- <!-- -----------------creating sunbscriptions--------------- -->
+const subscription = await Subscription.create({
+            ...req.body,
+            user: req.user._id
+        }) 
+      the req.body comes from the authorize middleware inside the create subcription route.
+<!-- -------------------------------------------- -->

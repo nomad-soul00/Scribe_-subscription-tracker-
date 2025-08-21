@@ -1,4 +1,6 @@
 import {Router} from 'express';
+import authorize from '../middlewares/auth.middleware.js';
+import { createSubscription, getUserSubscriptions } from '../controllers/subscription.controller.js';
 
 const subscriptionRoter = Router();
 
@@ -14,11 +16,7 @@ subscriptionRoter.get('/:id',(req,res)=>{
     })
 })
 
-subscriptionRoter.post('/',(req,res)=>{
-    res.send({
-        title: 'create a subscriptions'
-    })
-})
+subscriptionRoter.post('/',authorize, createSubscription)
 
 subscriptionRoter.put('/:id',(req,res)=>{
     res.send({
@@ -32,11 +30,7 @@ subscriptionRoter.delete('/:id',(req,res)=>{
     })
 });
 
-subscriptionRoter.get('/user/:id',(req,res)=>{
-    res.send({
-        title: 'get a users subscriptions'
-    })
-});
+subscriptionRoter.get('/user/:id',authorize, getUserSubscriptions);
 
 subscriptionRoter.put('/:id/cancel',(req,res)=>{
     res.send({
